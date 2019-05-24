@@ -37,7 +37,6 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    print("Signing up")
     s = request.form.to_dict()['json_string']
     json_acceptable_string = s.replace("'", "\"")
     d = json.loads(json_acceptable_string)
@@ -131,7 +130,9 @@ def checkfollow(username):
     if not g.user:
         return redirect(url_for('login'))
     if not isFollowed(g.user, username):
+        print("Not Followed")
         return "False"
+    print("Followed")
     return "True"
 
 @app.route('/follow/<username>', methods=["GET", "POST"])

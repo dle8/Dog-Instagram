@@ -46,7 +46,6 @@ def CheckCredentials(username, password):
 def upload_blob(file, username):
     # upload a file to the bucket
     bucket = storage.bucket()
-    print(bucket)
     blob = bucket.blob(username+"/"+secure_filename(file.filename))
     blob.upload_from_file(file)
 
@@ -108,7 +107,6 @@ def addFollow(username, user):
             if username == val['username']:
                 flag = True
                 follows = users_ref.child(key).child('follow').get()
-                # print(users_ref.child(key).child('follow').get())
                 if follows != None:
                     for keyf, valf in follows.items():
                         if valf['user'] == user:
@@ -125,7 +123,6 @@ def unFollow(username, user):
         for key, val in users.items():
             if username == val['username']:
                 follows = users_ref.child(key).child('follow').get()
-                print(follows)
                 if follows != None:
                     for keyf, valf in follows.items():
                         if valf['user'] == user:

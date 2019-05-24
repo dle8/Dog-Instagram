@@ -89,7 +89,6 @@ function fetchUserImages(user) {
         type: "GET",
         url: '/user/' + user + '/images',
         success: function (response) {
-            console.log(response);
             imagesDiv = document.querySelector("#images");
             for (let image of JSON.parse(response)) {
                 let newImg = document.createElement("img");
@@ -122,12 +121,10 @@ function fetchImagesforNewsfeed() {
 function searchUserName() {
     let targetUser = document.getElementById("searchUser").value;
     if (targetUser == "") return "Failed";
-    console.log(targetUser);
     $.ajax({
         type: "POST",
         url: '/search/' + targetUser,
         success: function (response) {
-            console.log(response);
             if (response == "False") {
                 window.alert("Username does not exist");
             }
@@ -146,7 +143,6 @@ function followUser(user) {
                 type: "POST",
                 url: '/follow/' + user,
                 success: function (response) {
-                    console.log(response);
                     window.location.href = '/search/' + user;
                 }
     });
@@ -160,9 +156,7 @@ window.onload = () => {
         fetchImagesforProfile();
     }
     path = window.location.pathname.split('/');
-    console.log(path);
     if (path[1] == 'search') {
-        console.log(path[2]);
         fetchUserImages(path[2]);
     }
 };

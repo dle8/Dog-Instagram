@@ -7,25 +7,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
 </head>
-<body onload="checkFollow('{{user}}')">
+<body>
     <div class="topBar">
         <h2>Welcome to <span id="username">{{user}}</span>'s page!</h2>
         <span title="Home"><i class="ico"><i class="big home icon" onclick="returnHome()"></i></i></span>
         <span title="Follow" class="ico"><i id="followIcon" class="big user plus icon" onclick="followUser('{{user}}')"></i></span>
     </div>
     <br>
+
     <div id="message">&nbsp</div>
     <div id="images">
 
     </div>
     <script src="../static/main.js" defer></script>
     <script>
-        function checkFollow(user) {
-            $.ajax({
+        $.ajax({
                 type: "POST",
-                url: '/checkfollow/' + user,
+                url: '/checkfollow/' + '{{user}}',
                 success: function (response) {
-                    // console.log(response);
                     followIcon = document.getElementById("followIcon");
                     if (response == "True") {
                         followIcon.className = "big check icon";
@@ -34,8 +33,7 @@
                         followIcon.className = "big user plus icon";
                     }
                 }
-            });
-        }
+        });
     </script>
 </body>
 </html>
