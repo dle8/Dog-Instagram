@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="../static/main.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="topBar">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message == "Image uploaded successfully!" %}
+                            <h2 class="success">{{ message }}</h2>
+                        {% else %}
+                            <h2 class="failure">{{ message }}</h2>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h2>Welcome, {{ user }}!</h2>
+            <div class="ui right aligned category search">
+                <div class="ui icon input">
+                    <input id="searchUser" class="prompt" type="text" placeholder="Search user">
+                    <i class="search icon"></i>
+                </div>
+                <div class="results"></div>
+            </div>
+            <br>
+            <label for="imageUpload"><span title="Upload"><i class="ico"><i class="big plus circle icon" onclick="uploadImages()"></i></i></span></label>
+            <span title="Home"><i class="ico"><i class="big home icon" onclick="returnHome()"></i></i></span>
+            <span title="Profile">
+                <i class="ico">
+                    <i class="big user icon" onclick="myImages()"></i>
+                </i>
+            </span>
+            <span title="Logout"><i class="ico"><i class="big sign out alternate icon" onclick="logOut()"></i></i></span>
+            <span id="upload" style="visibility: hidden;">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="image" id="imageUpload" required>
+                    <input type="submit" value="Upload">
+                </form>
+            </span>
+            <div id="message">&nbsp</div>
+            <div class="text-center">
+                <div id="images">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        searchBar = document.getElementById("searchUser");
+        searchBar.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                searchUserName();
+            }
+        })
+    </script>
+    <br>
+</body>
+</html>

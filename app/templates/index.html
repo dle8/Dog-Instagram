@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+  </head>
+  <body>
+    <div class="container" align="center">
+        <div class="box">
+            <h1 align="center">Instagram_Demo</h1>
+            <div id="authentication" class="login">
+                <div class="ui left icon input">
+                    <input id="username" type="text" placeholder="Username" required>
+                    <i class="users icon"></i>
+                    <input id="password" type="password" placeholder="Password" required>
+                </div>
+                <br><br>
+                <button type="submit" class="ui labeled icon button" onclick="login()"><i class="right arrow icon"></i>Login</button>
+                <button type="submit" class="ui labeled icon button" onclick="signup()"><i class="user circle icon"></i>Create new account</button>
+            </div>
+        </div>
+    </div>
+    <script src="../static/main.js"></script>
+    <script>
+        usernameinput = document.getElementById("username");
+        passswordinput = document.getElementById("password");
+        usernameinput.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                login();
+            }
+        })
+        passswordinput.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                login();
+            }
+        })
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+body {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans';
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.box
+{
+    background-color: white;
+    padding:10px;
+    text-align: center;
+    display: center;
+    border: 1px solid black;
+    width: 40%;
+    height: 40%;
+    display: inline-block;
+}
+
+i:hover {
+    opacity: 1;
+}
+
+.ico
+{
+    font-size:27px;
+    padding:1%;
+}
+
+.ico:hover
+{
+    color:white;
+}
+.container {
+    background-color: beige;
+    color: #333;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+.login
+{
+    padding: 10%;
+    text-align: center;
+}
+
+#profilePic
+{
+    border-color: black;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    vertical-align:middle;
+    padding:5px;
+}
+
+#search
+{
+    width: 5%;
+}
+
+.topBar {
+    background: #c3c3c3;
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+}
+
+.searchBar
+{
+    text-align: center;
+    padding: 5px;
+}
+
+input
+{
+    width: 20%;
+    font-size: 15px;
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+
+button, a, input[type=submit]
+{
+    background-color: #3c3c3c;
+    border: 2px solid #3c3c3c;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: -10px;
+    transition-duration: 0.6s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover, a:hover, input[type=submit]:hover {
+  background-color: white;
+  color: #3c3c3c;
+}
+
+input[type=file] {
+    background-color: #333;
+    height: 0vh;
+    width: 0vw;
+    opacity: 0;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    border: 3px solid #3c3c3c;
+    width: 50%;
+    height: 50%;
+
+}
+
+.text-center
+{
+    text-align: center;
+}
+
+
+.success {
+    color: #0f0;
+}
+
+.failure {
+    color: #f00;
+}
