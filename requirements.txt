@@ -9,3 +9,4 @@ marshmallow==3.0.3
 requests==2.22.0
 werkzeug==0.15.6
 firebase-admin==2.18.0
+PyJWT==1.7.1
