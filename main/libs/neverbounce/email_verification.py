@@ -14,5 +14,6 @@ def validate_email(email):
         api_response = json.loads(api_response)
     except Exception:
         raise Exception('There is an error connnecting to NeverBounce server.')
+
     if api_response['result'] == 'invalid':
         raise errors.InvalidEmail
