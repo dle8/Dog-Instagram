@@ -13,7 +13,8 @@ class Config(object):
     JWT_LIFE_TIME = 60 * 60 * 24  # seconds
     JWT_ALGORITHMS = ''
 
-    # Google mail
+    # Google
+    CREDENTIALS_DIR_PATH = 'credentials'
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
