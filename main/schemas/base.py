@@ -1,4 +1,5 @@
-from marshmallow import Schema, EXCLUDE, pre_load
+from marshmallow import Schema, EXCLUDE, pre_load, validates
+from main.libs.neverbounce.email_verification import validate_email
 
 
 class BaseSchema(Schema):
@@ -8,6 +9,11 @@ class BaseSchema(Schema):
             if isinstance(data[key], str):
                 data[key] = data[key].strip()
         return data
+
+    @validates('email')
+    def validate_email(self, email):
+        if email:
+            validate_email(email)
 
     class Meta:
         unknown = EXCLUDE
