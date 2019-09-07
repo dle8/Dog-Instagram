@@ -1,5 +1,6 @@
 from flask import jsonify
 from marshmallow import fields, Schema
+from main import app
 
 
 class Error(Exception):
@@ -48,7 +49,7 @@ class InvalidEmail(Error):
 
 class UserEmailAlreadyExistedError(Error):
     status_code = StatusCode.BAD_REQUEST
-    error_code = ErrorCode.USER_EMAIL_ALREADY_EXISTED
+    error_code = ErrorCode.USER_ALREADY_EXISTS
     error_message = 'This email is already registered. Click here to login.'
 
 
@@ -68,3 +69,38 @@ class EmailAndPasswordNotMatch(Error):
     status_code = StatusCode.BAD_REQUEST
     error_code = ErrorCode.BAD_REQUEST
     error_message = "Invalid email or password."
+
+
+class NotFound(Error):
+    status_code = StatusCode.NOT_FOUND
+    error_code = ErrorCode.NOT_FOUND
+    error_message = 'Not found'
+
+    def __init__(self, code=ErrorCode.NOT_FOUND, message='Not found', data=None):
+        super(self.__class__, self).__init__(data)
+        self.error_code = code
+        self.error_message = message
+
+
+class MethodNotAllowed(Error):
+    status_code = StatusCode.METHOD_NOT_ALLOWED
+    error_code = ErrorCode.METHOD_NOT_ALLOWED
+    error_message = 'Method not allowed'
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return NotFound().to_response()
+
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    return MethodNotAllowed().to_response()
+
+
+@app.errorhandler(Exception)
+def error_handler(error):
+    if isinstance(error, Error):
+        return error.to_response()
+
+    return jsonify(error_message=str(error)), 500
