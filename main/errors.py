@@ -44,3 +44,27 @@ class InvalidEmail(Error):
     status_code = StatusCode.BAD_REQUEST
     error_code = ErrorCode.INVALID_EMAIL
     error_message = 'This email is invalid. Please try another one.'
+
+
+class UserEmailAlreadyExistedError(Error):
+    status_code = StatusCode.BAD_REQUEST
+    error_code = ErrorCode.USER_EMAIL_ALREADY_EXISTED
+    error_message = 'This email is already registered. Click here to login.'
+
+
+class UserDoesNotExist(Error):
+    status_code = StatusCode.BAD_REQUEST
+    error_code = ErrorCode.USER_DOES_NOT_EXIST
+    error_message = 'User does not exist'
+
+
+class UnconfirmedEmail(Error):
+    status_code = StatusCode.BAD_REQUEST
+    error_code = ErrorCode.UNCONFIRMED_EMAIL
+    error_message = 'This email has not been confirmed. Please use confirmation code to confirm this email.'
+
+
+class EmailAndPasswordNotMatch(Error):
+    status_code = StatusCode.BAD_REQUEST
+    error_code = ErrorCode.BAD_REQUEST
+    error_message = "Invalid email or password."
