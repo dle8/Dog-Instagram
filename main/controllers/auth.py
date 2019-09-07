@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify
 from main import app, errors
 from main.core import parse_args_with
 from main.schemas.user import AuthSchema, ConfirmationCodeSchema
@@ -18,7 +18,8 @@ def auth(args):
     if not check_password_hash(pwhash=hashed_password, password=args.get('password')):
         raise errors.EmailAndPasswordNotMatch()
 
-    return jsonify(access_token=jwttoken.encode(user))
+    access_token = jwttoken.encode(user)
+    return jsonify(access_token=access_token.decode('utf-8'))
 
 
 @app.route('/register', methods=['POST'])
