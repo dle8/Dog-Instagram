@@ -9,7 +9,6 @@ app.config.from_object(config)
 
 
 def _register_subpackages():
-    import main.models
     import main.errors
     import main.controllers
 
