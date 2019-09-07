@@ -11,7 +11,7 @@ class Config(object):
     # JWT
     JWT_SECRET = ''
     JWT_LIFE_TIME = 60 * 60 * 24  # seconds
-    JWT_ALGORITHMS = ''
+    JWT_ALGORITHM = ''
 
     # Google
     CREDENTIALS_DIR_PATH = 'credentials'
