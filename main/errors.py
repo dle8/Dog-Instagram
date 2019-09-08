@@ -71,6 +71,12 @@ class EmailAndPasswordNotMatch(Error):
     error_message = "Invalid email or password."
 
 
+class Unauthorized(Error):
+    status_code = StatusCode.UNAUTHORIZED
+    error_code = ErrorCode.UNAUTHORIZED
+    error_message = 'Unauthorized'
+
+
 class NotFound(Error):
     status_code = StatusCode.NOT_FOUND
     error_code = ErrorCode.NOT_FOUND
