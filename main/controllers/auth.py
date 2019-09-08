@@ -1,9 +1,8 @@
 from flask import jsonify
-from main import app, errors
+from main import app, errors, utils
 from main.utils import parse_args_with
 from main.schemas.user import AuthSchema, ConfirmationCodeSchema
 from main.libs.firebase.user import create_user, get_user_key_or_none, check_user_credentials
-from main import utils
 
 
 @app.route('/auth', methods=['POST'])
