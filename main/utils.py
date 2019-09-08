@@ -31,22 +31,21 @@ def jwt_required():
         def decorated_function(*args, **kwargs):
             authorization_header = request.headers.get('Authorization')
             if authorization_header is None:
-                raise errors.Unauthorized
+                raise errors.Unauthorized()
             token_parts = authorization_header.split(' ')
             if len(token_parts) != 2:
-                raise errors.Unauthorized
+                raise errors.Unauthorized()
             token = token_parts[1]
             try:
                 payload = jwt.decode(token, config.JWT_SECRET, algorithms=[config.JWT_ALGORITHM])
             except jwt.InvalidTokenError:
-                raise errors.Unauthorized
-            for field in ['email']:
-                if field not in payload:
-                    raise errors.Unauthorized
-            email = payload.get('email')
+                raise errors.Unauthorized()
+            if 'sub' not in payload:
+                raise errors.Unauthorized()
+            email = payload.get('sub')
             if not check_user_credentials(email=email):
-                raise errors.Unauthorized
-            kwargs['email'] = email
+                raise errors.Unauthorized()
+            kwargs['sub'] = email
 
             return f(*args, **kwargs)
 
