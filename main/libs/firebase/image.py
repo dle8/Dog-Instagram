@@ -56,6 +56,5 @@ def get_user_followees_images(email=None):
                     })
 
         return images
-    except Exception as e:
-        print(e)
+    except Exception:
         raise Exception('There is an error getting followees\' pictures')
