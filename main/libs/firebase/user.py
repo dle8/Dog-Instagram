@@ -1,24 +1,12 @@
-import firebase_admin
-from firebase_admin import credentials, db, storage
-from main.config import config
 from main import errors
-from werkzeug.security import generate_password_hash
-
-FIREBASE_ADMINSDK_JSON = 'dog-instagram-firebase-adminsdk.json'
-
-cred = credentials.Certificate(config.CREDENTIALS_DIR_PATH + '/' + FIREBASE_ADMINSDK_JSON)
-firebase_app = firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://dog-instagram.firebaseio.com/',
-    'storageBucket': 'dog-instagram.appspot.com'
-})
-root = db.reference()
-users_ref = root.child('users')
+from werkzeug.security import generate_password_hash, check_password_hash
+from . import users_ref
 
 
 def create_user(email=None, password=None):
     try:
-        user = get_user(email)
-        if user:
+        user_key = get_user_key_or_none(email)
+        if user_key:
             raise errors.UserEmailAlreadyExistedError()
 
         users_ref.push({
@@ -30,25 +18,67 @@ def create_user(email=None, password=None):
         raise Exception('There is an error in creating a new user')
 
 
+def check_user_credentials(email=None, password=None):
+    try:
+        user_key = get_user_key_or_none(email)
+        if not user_key:
+            return False
+        if not password:
+            hashed_password_in_db = users_ref.child(user_key).get()['password']
+            if not check_password_hash(pwhash=hashed_password_in_db, password=password):
+                return False
+
+        return True
+    except Exception:
+        raise Exception('There is an error in checking user credentials')
+
+
 def set_user_attr(**kwargs):
     try:
         if 'email' in kwargs:
-            user = get_user(email=kwargs['email'])
+            user_key = get_user_key_or_none(email=kwargs['email'])
             if 'password' in kwargs:
-                user.child('password').set(kwargs['password'])
-            if 'confirm' in kwargs:
-                user.child('confirmed').set(kwargs['confirmed'])
+                users_ref.child(user_key).child('password').set(kwargs['password'])
+            if 'confirmed' in kwargs:
+                users_ref.child(user_key).child('confirmed').set(kwargs['confirmed'])
     except Exception:
         raise Exception('There is an error in setting user attribute')
 
 
-def get_user(email=None):
+def get_user_key_or_none(email=None):
     try:
         users = users_ref.get()
-        if users:
-            for user in users.values():
-                if email == user['email']:
-                    return user
+        for key, val in users.items():
+            if email == val['email']:
+                return key
+
         return None
     except Exception:
         raise Exception('There is an error in getting user information')
+
+
+def update_follow(follower_email, followee_email):
+    try:
+        follower_key = get_user_key_or_none(email=follower_email)
+        followee_key = get_user_key_or_none(email=followee_email)
+        if not follower_key or not followee_key:
+            raise errors.UserDoesNotExist()
+        followee_followers = users_ref.child(followee_key).child('followers').get()
+        followed = False
+
+        for key, value in followee_followers:
+            if value['email'] == follower_email:
+                followed = True
+                users_ref.child(followee_key).child('followers').child(key).delete()
+            if not followed:
+                users_ref.child(followee_key).child('followers').push({'email': follower_email})
+        follower_followees = users_ref.child(follower_key).child('followees').get()
+
+        for key, value in follower_followees:
+            if value['email'] == followee_email:
+                if followed:
+                    users_ref.child(follower_key).child('followees').child(key).delete()
+                else:
+                    users_ref.child(follower_key).child('followees').push({'email': followee_email})
+    except Exception:
+        raise Exception('There is an error following another user')
