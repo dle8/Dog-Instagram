@@ -1,24 +1,16 @@
 from flask import jsonify
 from main import app, errors
-from main.core import parse_args_with
+from main.utils import parse_args_with
 from main.schemas.user import AuthSchema, ConfirmationCodeSchema
-from main.libs.firebase.user import create_user, get_user, set_user_attr
-from main import jwttoken
-from werkzeug.security import check_password_hash
+from main.libs.firebase.user import create_user, get_user_key_or_none, check_user_credentials
+from main import utils
 
 
 @app.route('/auth', methods=['POST'])
 @parse_args_with(AuthSchema())
 def auth(args):
-    email = args.get('email')
-    user = get_user(email=email)
-    if not user:
-        raise errors.EmailAndPasswordNotMatch()
-    hashed_password = user['password']
-    if not check_password_hash(pwhash=hashed_password, password=args.get('password')):
-        raise errors.EmailAndPasswordNotMatch()
-
-    access_token = jwttoken.encode(user)
+    check_user_credentials(email=args.get('email'), password=args.get('password'))
+    access_token = utils.encode({'email': args.get('email')})
     return jsonify(access_token=access_token.decode('utf-8'))
 
 
@@ -26,8 +18,8 @@ def auth(args):
 @parse_args_with(AuthSchema())
 def register(args):
     email = args.get('email')
-    user = get_user(email=email)
-    if user:
+    user_key = get_user_key_or_none(email=email)
+    if user_key:
         raise errors.UserEmailAlreadyExistedError()
 
     create_user(email=email, password=args.get('password'))
@@ -38,14 +30,14 @@ def register(args):
 @parse_args_with(ConfirmationCodeSchema())
 def confirm(args):
     email = args.get('email')
-    user = get_user(email=email)
-    if not user:
+    user_key = get_user_key_or_none(email=email)
+    if not user_key:
         raise errors.UserDoesNotExist()
 
-    if user['confirmed']:
-        return jsonify({'message': 'Email already confirmed'})
-
-    set_user_attr(email=email, confirmed=True)
+    # if user['confirmed']:
+    #     return jsonify({'message': 'Email already confirmed'})
+    #
+    # set_user_attr(email=email, confirmed=True)
     return jsonify({'message': 'Account confirmed successfully'})
 
 
