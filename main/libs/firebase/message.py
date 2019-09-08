@@ -26,8 +26,7 @@ def create_user_message(sender_email=None, receiver_email=None, text=None):
         if not messaged_before:
             chat_node = messages_ref.push({'conversation_hash': conversation_hash})
             chat_node.push({'text': text, 'email': sender_email})
-    except Exception as e:
-        print(e)
+    except Exception:
         raise Exception('There is an error creating user message')
 
 
