@@ -1,9 +1,8 @@
 from flask import jsonify, request
 from main import app, errors
 from main.utils import jwt_required
-from main.libs.firebase.image import get_user_followees_images, get_user_images, upload_user_image, delete_user_image
-from main.dog_detector import dog_included
-from werkzeug.utils import secure_filename
+from main.libs.firebase.image import get_user_images, upload_user_image, delete_user_image, get_user_followees_images
+# from main.dog_detector import dog_included
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
 
@@ -16,14 +15,14 @@ def allowed_image_extension(image_name):
 @app.route('/users/<string:email>', methods=['GET'])
 @jwt_required()
 def get_followees_images(email):
-    images = get_followees_images(email=email)
+    images = get_user_followees_images(email=email)
 
     return jsonify(images)
 
 
 @app.route('/users/<string:email>/images', methods=['GET'])
 @jwt_required()
-def get_user_images(email):
+def get_images(email):
     images = get_user_images(email=email)
 
     return jsonify(images)
@@ -44,10 +43,10 @@ def upload_image(email):
         raise errors.BadRequest('Please attach an image.')
     file = request.files['file']
     if allowed_image_extension(file.filename):
-        if dog_included(file):
-            file.seek(0)
-            upload_user_image(email=email, image=file)
-        else:
-            raise errors.BadRequest('Can only upload pictures of doggo!')
+        # if dog_included(file):
+        file.seek(0)
+        upload_user_image(email=email, image=file)
+        # else:
+        #     raise errors.BadRequest('Can only upload pictures of doggo!')
 
     return jsonify({'message': 'Picture uploaded successfully'})
