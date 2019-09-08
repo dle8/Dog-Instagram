@@ -1,6 +1,6 @@
 from main import errors
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import users_ref
+from main.libs.firebase.image import users_ref
 
 
 def create_user(email=None, password=None):
@@ -57,7 +57,7 @@ def get_user_key_or_none(email=None):
         raise Exception('There is an error in getting user information')
 
 
-def update_follow(follower_email, followee_email):
+def update_user_follow(follower_email, followee_email):
     try:
         follower_key = get_user_key_or_none(email=follower_email)
         followee_key = get_user_key_or_none(email=followee_email)
@@ -80,5 +80,7 @@ def update_follow(follower_email, followee_email):
                     users_ref.child(follower_key).child('followees').child(key).delete()
                 else:
                     users_ref.child(follower_key).child('followees').push({'email': followee_email})
+
+        return not followed
     except Exception:
         raise Exception('There is an error following another user')
