@@ -10,4 +10,5 @@ firebase_app = firebase_admin.initialize_app(cred, {
 
 root = db.reference()
 users_ref = root.child('users')
+messages_ref = root.child('messages')
 bucket = storage.bucket()
