@@ -43,18 +43,19 @@ def get_user_followees_images(email=None):
                 'name': user_image['name'],
                 'email': email
             })
-
         user_key = get_user_key_or_none(email=email)
         followees = users_ref.child(user_key).child('followees').get()
-        for key, value in followees:
-            followee_images = get_user_images(value['email'])
-            for followee_image in followee_images:
-                images.append({
-                    'url': followee_image['url'],
-                    'name': followee_image['name'],
-                    'email': value['email']
-                })
+        if followees:
+            for key, value in followees:
+                followee_images = get_user_images(value['email'])
+                for followee_image in followee_images:
+                    images.append({
+                        'url': followee_image['url'],
+                        'name': followee_image['name'],
+                        'email': value['email']
+                    })
 
         return images
-    except Exception:
+    except Exception as e:
+        print(e)
         raise Exception('There is an error getting followees\' pictures')
