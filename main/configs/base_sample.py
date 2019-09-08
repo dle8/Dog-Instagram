@@ -29,8 +29,10 @@ class Config(object):
     # NeverBounce
     NEVERBOUNCE_API_KEY = ''
 
-    # Imgur
-    IMGUR_CLIENT_ID = ''
+    # Firebase
+    FIREBASE_ADMINSDK_JSON = ''
+    DATABASE_URL = ''
+    STORAGE_BUCKET = ''
 
     # Other
     MAXIMUM_CONFIRMATION_CODE_TRY = 5
