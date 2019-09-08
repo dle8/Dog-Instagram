@@ -1,1 +1,1 @@
-from . import auth, image, follow
+from . import auth, image, follow, message
