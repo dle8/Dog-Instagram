@@ -88,6 +88,17 @@ class NotFound(Error):
         self.error_message = message
 
 
+class BadRequest(Error):
+    status_code = StatusCode.BAD_REQUEST
+    error_code = ErrorCode.BAD_REQUEST
+    error_message = "Bad request"
+
+    def __init__(self, error_data=None, code=ErrorCode.BAD_REQUEST, message='Bad Request'):
+        super(self.__class__, self).__init__(error_data)
+        self.error_code = code
+        self.error_message = message
+
+
 class MethodNotAllowed(Error):
     status_code = StatusCode.METHOD_NOT_ALLOWED
     error_code = ErrorCode.METHOD_NOT_ALLOWED
