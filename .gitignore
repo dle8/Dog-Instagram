@@ -7,5 +7,3 @@ venv
 __pycache__
 
 main/configs/base.py
-
-credentials/dog-instagram-firebase-adminsdk.json
