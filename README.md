@@ -1,4 +1,4 @@
-#Dog Instagram
+# Dog Instagram
 
 Dog-instagram is a photo-sharing website for dog lovers, which supports functionalities such as photo posting, real-time
 messaging, user following, newsfeed displaying, user and dog breed searching with Firebase Realtime Database and Storage.
